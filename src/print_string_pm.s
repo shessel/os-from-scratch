@@ -1,6 +1,6 @@
 [bits 32]
 VIDEO_MEMORY equ 0xb8000
-WHITE_ON_BLACK equ 0x0f
+WHITE_ON_BLACK equ 0xf1
 
 print_string_pm:
     call clear_screen
@@ -21,15 +21,22 @@ print_string_pm_loop_end:
     ret
 
 clear_screen:
-    pusha
-    mov edx, VIDEO_MEMORY
+    push ax
     mov ax, 0x0
-clear_screen_loop_begin:
+    call fill_screen
+    pop ax
+    ret
+
+; fill screen with color/character in ax
+fill_screen:
+    push edx
+    mov edx, VIDEO_MEMORY
+fill_screen_loop_begin:
     cmp edx, (VIDEO_MEMORY + 4000)
-    je clear_screen_loop_end
+    je fill_screen_loop_end
     mov [edx], ax
     add edx, 2
-    jmp clear_screen_loop_begin
-clear_screen_loop_end:
-    popa
+    jmp fill_screen_loop_begin
+fill_screen_loop_end:
+    pop edx
     ret

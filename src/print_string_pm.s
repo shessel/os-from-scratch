@@ -1,6 +1,6 @@
 [bits 32]
 VIDEO_MEMORY equ 0xb8000
-WHITE_ON_BLACK equ 0xf1
+WHITE_ON_BLACK equ 0x0f
 
 print_string_pm:
     call clear_screen
@@ -20,6 +20,7 @@ print_string_pm_loop_end:
     popa
     ret
 
+; clear screen to black
 clear_screen:
     push ax
     mov ax, 0x0

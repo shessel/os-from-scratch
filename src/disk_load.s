@@ -1,8 +1,9 @@
 disk_load:
+    pusha
     push dx
 
-    ;al holds number of sectors to read
     mov ah, 0x02
+    ;al holds number of sectors to read
     mov al, dh
 
     ;dh holds head index (zero-based)
@@ -19,6 +20,7 @@ disk_load:
     pop dx
     cmp dh, al
     jne disk_error
+    popa
     ret
 
 disk_error:

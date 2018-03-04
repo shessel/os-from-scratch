@@ -38,6 +38,7 @@ main:
     call print_string_pm
 
     call KERNEL_OFFSET
+
     jmp $
 
 BOOT_DRIVE db 0

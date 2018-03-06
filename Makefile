@@ -7,8 +7,11 @@ all: $(BUILD_DIR)/boot.img
 run: all
 	qemu-system-x86_64 -drive file=$(BUILD_DIR)/boot.img,format=raw,index=0,media=disk
 
-$(BUILD_DIR)/kernel.bin : $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/kernel.o
+$(BUILD_DIR)/kernel.bin : $(BUILD_DIR)/kernel_entry.o $(BUILD_DIR)/kernel.o $(BUILD_DIR)/portio.o
 	ld -o $(BUILD_DIR)/kernel.bin --oformat binary -Ttext 0x1000 -m elf_i386 $^
+
+$(BUILD_DIR)/portio.o : $(SRC_DIR)/portio.c
+	clang -fno-pie -ffreestanding -c -m32 -o $@ $^
 
 $(BUILD_DIR)/kernel.o : $(SRC_DIR)/kernel.c
 	clang -fno-pie -ffreestanding -c -m32 -o $@ $^

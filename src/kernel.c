@@ -1,21 +1,38 @@
 char* const VIDEO_MEMORY = (char*) 0xb8000;
+const unsigned char WIDTH = 80u;
+const unsigned char HEIGHT = 25u;
+const unsigned int NUM_CHARS = WIDTH * HEIGHT;
 
-char test() {
-    return 'X';
+#include "portio.h"
+
+void print_string(const char* const msg) {
+    unsigned int i = 0;
+    char* videoMemory = VIDEO_MEMORY;
+    const char* currentChar = msg;
+    while (i++ < NUM_CHARS && *currentChar != 0) {
+        *videoMemory++ = *currentChar++;
+        *videoMemory++ = 0x0f;
+        ++i;
+    }
+}
+
+void clear_screen(const char color, const char symbol) {
+    unsigned int i = 0;
+    char* videoMemory = VIDEO_MEMORY;
+    while (i++ < NUM_CHARS) {
+        *videoMemory++ = symbol;
+        *videoMemory++ = color;
+    }
+}
+
+void clear_screen_color(const char color) {
+    clear_screen(color, 0x0);
+}
+void clear_screen_def() {
+    clear_screen(0x0, 0x0);
 }
 
 void main() {
-    char* videoMemory = VIDEO_MEMORY;
-    videoMemory[0] = 'H';
-    videoMemory[1] = 0xf0;
-    videoMemory[2] = 'e';
-    videoMemory[3] = 0xf0;
-    videoMemory[4] = 'l';
-    videoMemory[5] = 0xf0;
-    videoMemory[6] = 'l';
-    videoMemory[7] = 0xf0;
-    videoMemory[8] = 'o';
-    videoMemory[9] = 0xf0;
-    videoMemory[10] = test();
-    videoMemory[11] = 0xf0;
+    clear_screen_color(0xf0);
+    print_string("Hello Kernel!");
 }

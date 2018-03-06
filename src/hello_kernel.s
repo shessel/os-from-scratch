@@ -26,7 +26,7 @@ load_kernel:
 
     mov bx, KERNEL_OFFSET
 ; read one sector, qemu fails if trying to load more than image provides
-    mov dh, 0x01
+    mov dh, 0x02
     mov dl, [BOOT_DRIVE]
     call disk_load
 

@@ -2,6 +2,6 @@
 #include "drivers/screen.h"
 
 void main() {
-    clear_screen_color(0xf0);
+    clear_screen_color(0x40);
     print_string("Hello Kernel!");
 }

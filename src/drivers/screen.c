@@ -1,6 +1,8 @@
+#include "screen.h"
+
 char* const VIDEO_MEMORY = (char*) 0xb8000;
-const unsigned char WIDTH = 80u;
-const unsigned char HEIGHT = 25u;
+const uint8_t WIDTH = 80u;
+const uint8_t HEIGHT = 25u;
 const unsigned int NUM_CHARS = WIDTH * HEIGHT;
 
 void print_string(const char* const msg) {
